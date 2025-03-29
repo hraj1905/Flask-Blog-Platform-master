@@ -1,0 +1,47 @@
+class User:
+    def __init__(self, name, email, password):
+         self.name = name
+         self.email = email
+         self.password = password
+         self.posts = []
+ 
+class BlogPost:
+    def __init__(self, title, subtitle, body):
+         self.title = title
+         self.subtitle = subtitle
+         self.body = body
+ 
+new_user = User(
+    name="Angela",
+    email="angela@email.com",
+    password=123456,
+    posts=[
+        BlogPost(
+            title="Life of Cactus",
+            subtitle="So Interesting",
+            body="blah blah"
+        )
+    ]        
+)
+
+In relational databases such as SQLite, MySQL or PostgreSQL 
+we're able to define a relationship between tables using a ForeignKey and a relationship() method.
+
+
+One To Many
+A one to many relationship places a foreign key on the child table referencing the parent. 
+relationship() is then specified on the parent, as referencing a collection of items represented by the child:
+-------------------------------------------------------------------------------------------------------------------------
+class Parent(Base):
+    __tablename__ = "parent_table"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    children: Mapped[List["Child"]] = relationship()
+
+
+class Child(Base):
+    __tablename__ = "child_table"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    parent_id: Mapped[int] = mapped_column(ForeignKey("parent_table.id"))
+--------------------------------------------------------------------------------------------------------------
